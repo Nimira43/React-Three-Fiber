@@ -1,9 +1,10 @@
 import './style.css'
 import * as THREE from 'three/webgpu'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { Fn, positionLocal } from 'three/tsl'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 const scene = new THREE.Scene()
+
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -17,7 +18,7 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 renderer.setAnimationLoop(animate)
 
-window.addEventListener('resize', () => {
+window.addEventListener('resize', function () {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -32,17 +33,13 @@ const main = Fn(() => {
 })
 
 const material = new THREE.NodeMaterial()
-material.fragmentNode = positionLocal.mul(4.999).fract().step(0.5)
+material.fragmentNode = positionLocal.length().mul(15).fract().step(0.5)
 
-const mesh = new THREE.Mesh(
-  new THREE.BoxGeometry(),
-  material
-)
+const mesh = new THREE.Mesh(new THREE.BoxGeometry(), material)
 scene.add(mesh)
 
 function animate() {
   controls.update()
   renderer.render(scene, camera)
 }
-
 
